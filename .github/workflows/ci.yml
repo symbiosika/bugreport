@@ -8,6 +8,10 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    # secrets are not readable inside `if:` expressions — map them to env first
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,10 +34,7 @@ jobs:
       # Runs against the real provider APIs — only when secrets are available
       # (skipped automatically on forks).
       - name: Integration tests (real LLM APIs)
-        if: ${{ secrets.OPENROUTER_API_KEY != '' && secrets.MISTRAL_API_KEY != '' }}
-        env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+        if: ${{ env.OPENROUTER_API_KEY != '' && env.MISTRAL_API_KEY != '' }}
         run: bun test examples/hono-reference/test/integration.test.ts
 
   publish-dry-run:
