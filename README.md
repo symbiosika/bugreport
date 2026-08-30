@@ -216,8 +216,31 @@ bun test examples/hono-reference/test/e2e.browser.test.ts  # Chromium e2e
 ```
 
 CI (`.github/workflows/ci.yml`) builds, typechecks, tests and does a pack
-dry-run. Each package under `packages/*` has a `prepack` build — publish with
-`cd packages/<name> && npm publish --access public`.
+dry-run.
+
+## Publishing to npm
+
+Publish with **`bun publish`**, not `npm publish`: the packages depend on each
+other via the `workspace:*` protocol, which bun rewrites to the real version
+at pack time — npm would publish the literal `workspace:*` and break installs.
+
+```bash
+# one-time: an npm account with publish rights on the @symbiosika scope
+npm login
+
+# from a clean, green checkout:
+bun install && bun run build && bun test packages
+
+# bump the "version" field of the packages you release (keep them in sync),
+# then publish in dependency order:
+for pkg in core client server vue; do
+  (cd packages/$pkg && bun publish --access public)
+done
+```
+
+`bun publish` runs each package's `prepack` build automatically; add
+`--dry-run` to inspect the tarball first (`--access public` is required on
+the first publish of a scoped package).
 
 ## License
 
