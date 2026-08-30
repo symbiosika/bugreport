@@ -1,0 +1,30 @@
+{
+  "name": "@symbiosika/bugreport-server",
+  "version": "0.1.0",
+  "description": "Web-standard request handler, processing pipeline and host interfaces for @symbiosika/bugreport",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "rm -rf dist && bun build src/index.ts --outdir dist --format esm --target node --external valibot --external @symbiosika/bugreport-core && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "prepack": "bun run build"
+  },
+  "dependencies": {
+    "@symbiosika/bugreport-core": "workspace:*",
+    "valibot": "^1.1.0"
+  }
+}

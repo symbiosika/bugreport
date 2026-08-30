@@ -1,0 +1,22 @@
+{
+  "name": "bugreport-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "build": "bun run build:core && bun run build:client && bun run build:vue && bun run build:server",
+    "build:core": "bun run --cwd packages/core build",
+    "build:client": "bun run --cwd packages/client build",
+    "build:vue": "bun run --cwd packages/vue build",
+    "build:server": "bun run --cwd packages/server build",
+    "typecheck": "bun run --cwd packages/core typecheck && bun run --cwd packages/client typecheck && bun run --cwd packages/vue typecheck && bun run --cwd packages/server typecheck && bun run --cwd examples/hono-reference typecheck",
+    "test": "bun test packages",
+    "test:integration": "bun test examples/hono-reference/test/integration.test.ts",
+    "example": "bun run --cwd examples/hono-reference dev"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

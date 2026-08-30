@@ -1,0 +1,29 @@
+{
+  "name": "@symbiosika/bugreport-core",
+  "version": "0.1.0",
+  "description": "Shared types, valibot schemas and API contract for @symbiosika/bugreport",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "rm -rf dist && bun build src/index.ts --outdir dist --format esm --target browser --external valibot && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "prepack": "bun run build"
+  },
+  "dependencies": {
+    "valibot": "^1.1.0"
+  }
+}

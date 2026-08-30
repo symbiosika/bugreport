@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
+examples/hono-reference/data/
+examples/hono-reference/bugreports/
