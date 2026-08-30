@@ -1,9 +1,9 @@
 # @symbiosika/bugreport-client
 
-Browser-SDK (Vanilla TS, zero dependencies außer `-core`) für zeigend-sprechende
-Fehlermeldungen: Overlay-UI im Shadow DOM, `getDisplayMedia`-Frame-Sampling
-statt Video, Mikrofon-Aufnahme, Kontext-Collector (Konsole, Netzwerkfehler,
-Breadcrumbs), Redaction und Upload-Protokoll.
+Browser SDK (vanilla TS, zero dependencies besides `-core`) for show-and-tell
+bug reports: overlay UI in Shadow DOM, `getDisplayMedia` frame sampling
+instead of video, microphone recording, context collector (console, failed
+requests, breadcrumbs), redaction, and the upload protocol.
 
 ```ts
 import { initBugReport } from '@symbiosika/bugreport-client'
@@ -14,19 +14,19 @@ const bugReport = initBugReport({
   getAuthHeaders: async () => ({ Authorization: `Bearer ${await getToken()}` }),
   reporter: () => ({ id: user.id, name: user.name }),
   redact: { selectors: ['[data-private]'], urlParams: ['token'] },
-  locale: 'de',
-  onSubmitted: ({ reportId }) => toast(`Meldung ${reportId} übermittelt`),
+  locale: 'en',
+  onSubmitted: ({ reportId }) => toast(`Report ${reportId} submitted`),
 })
 
 if (bugReport.isSupported) {
   myButton.addEventListener('click', () => bugReport.start())
 } else {
-  // Desktop-only: auf Mobile eigene Alternative anbieten (z. B. Formular)
+  // desktop-only: offer your own alternative on mobile (e.g. a plain form)
 }
 ```
 
-Zielplattform: Chrome, Edge, Firefox, Safari auf dem Desktop. Auf nicht
-unterstützten Plattformen meldet `isSupported` `false` — der Button soll dann
-gar nicht erst erscheinen.
+Target platforms: Chrome, Edge, Firefox, Safari on desktop. On unsupported
+platforms `isSupported` reports `false` — don't render the button there.
 
-Siehe das [Monorepo-README](https://github.com/symbiosika/bugreport).
+Full option reference:
+[integration guide](https://github.com/symbiosika/bugreport/blob/main/docs/INTEGRATION.md).

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bugreport Demo-App</title>
+  <title>Bugreport Demo App</title>
   <style>
     body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; color: #1f2937; }
     h1 { font-size: 22px; }
@@ -15,31 +15,31 @@
   </style>
 </head>
 <body>
-  <h1>🧪 Demo-App mit eingebautem Bug-Reporting</h1>
+  <h1>🧪 Demo app with built-in bug reporting</h1>
   <p>
-    Diese Mini-App enthält absichtliche Fehler. Unten rechts sitzt der
-    Floating-Button von <code>@symbiosika/bugreport-client</code>:
-    klicken → zustimmen → Tab freigeben → Fehler vorführen und dabei sprechen →
-    „Übermitteln“. Das Ergebnis landet als ZIP in
+    This mini app contains intentional bugs. The floating button in the bottom
+    right corner comes from <code>@symbiosika/bugreport-client</code>:
+    click it → consent → share this tab → demonstrate the bug while talking →
+    "Submit". The result lands as a ZIP in
     <code>examples/hono-reference/bugreports/</code>.
   </p>
 
   <div class="card">
-    <h3>Absichtliche Fehler</h3>
-    <button id="btn-crash">JS-Fehler werfen</button>
-    <button id="btn-fetch">Kaputten Request auslösen</button>
-    <button id="btn-warn">console.warn erzeugen</button>
+    <h3>Intentional bugs</h3>
+    <button id="btn-crash">Throw a JS error</button>
+    <button id="btn-fetch">Trigger a failing request</button>
+    <button id="btn-warn">Produce a console.warn</button>
   </div>
 
   <div class="card">
-    <h3>Redaction-Demo</h3>
-    <p>Dieses Element wird in Screenshots geschwärzt:</p>
-    <span class="secret" data-private>Geheime Patientendaten: Max Mustermann</span>
+    <h3>Redaction demo</h3>
+    <p>This element is blacked out in captured frames:</p>
+    <span class="secret" data-private>Confidential patient data: John Doe</span>
   </div>
 
   <div class="card">
     <h3>Status</h3>
-    <div id="log">bereit …</div>
+    <div id="log">ready …</div>
   </div>
 
   <script type="module">
@@ -56,27 +56,27 @@
       capture: { frameIntervalMs: 3000, microphone: true },
       redact: { selectors: ['[data-private]'], urlParams: ['token'] },
       context: () => ({ demoState: 'clicked around', tenant: 'demo' }),
-      locale: 'de',
+      locale: 'en',
       requireTabCapture: true,
       floatingButton: true,
-      onSubmitted: ({ reportId }) => log(`✅ Meldung ${reportId} übermittelt — ZIP wird erstellt`),
+      onSubmitted: ({ reportId }) => log(`✅ Report ${reportId} submitted — ZIP is being written`),
       onError: (err) => log(`⚠️ ${err.message}`),
     });
 
     window.__bugReport = bugReport; // for e2e tests
     log(bugReport.isSupported
-      ? 'Bug-Reporting verfügbar (Floating-Button unten rechts)'
-      : `Bug-Reporting nicht verfügbar: ${bugReport.unsupportedReason}`);
+      ? 'Bug reporting available (floating button in the bottom right)'
+      : `Bug reporting not available: ${bugReport.unsupportedReason}`);
     bugReport.onStateChange((s) => log(`state: ${s}`));
 
     document.getElementById('btn-crash').addEventListener('click', () => {
-      throw new Error('Demo: Nicht abgefangener Fehler beim Speichern');
+      throw new Error('Demo: uncaught error while saving');
     });
     document.getElementById('btn-fetch').addEventListener('click', () => {
       fetch('/api/flaky?token=super-secret').catch(() => {});
     });
     document.getElementById('btn-warn').addEventListener('click', () => {
-      console.warn('Demo: Formular-Validierung übersprungen');
+      console.warn('Demo: form validation was skipped');
     });
   </script>
 </body>

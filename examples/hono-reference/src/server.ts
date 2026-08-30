@@ -13,9 +13,9 @@ import { curlFetch } from "./lib/curl-fetch";
 const ROOT = join(import.meta.dir, "..");
 
 export const CONSENT_TEXT = [
-  "Zur Fehleranalyse werden Bildschirm-Standbilder deines Browser-Tabs, deine Mikrofon-Aufnahme sowie technischer Kontext (Konsolenmeldungen, fehlgeschlagene Requests, besuchte Routen) erfasst und an unser Entwicklungsteam übertragen.",
-  "Bitte gib im nächsten Dialog nur diesen Tab frei und achte darauf, dass keine sensiblen Daten sichtbar sind.",
-  "Die Daten werden ausschließlich zur Bearbeitung deiner Fehlermeldung verwendet.",
+  "To analyze the problem, screen stills of your browser tab, your microphone recording and technical context (console messages, failed requests, visited routes) will be captured and sent to our development team.",
+  "In the next dialog please share only this tab and make sure no sensitive data is visible.",
+  "The data is used exclusively to process your bug report.",
 ].join("\n\n");
 
 export interface CreateAppOptions {

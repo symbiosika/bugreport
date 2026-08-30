@@ -80,7 +80,7 @@ describe("browser e2e", () => {
         page.locator("#log"),
       ).not.toBeNull();
       const logText = await page.locator("#log").textContent();
-      expect(logText).toContain("Bug-Reporting verfügbar");
+      expect(logText).toContain("Bug reporting available");
 
       // 1. floating button → consent dialog → accept (grants tab capture)
       await page.click("button.fab");
@@ -99,7 +99,7 @@ describe("browser e2e", () => {
       await page.click('[data-testid="bugreport-submit"]');
       await page.fill(
         '[data-testid="bugreport-comment"]',
-        "Der Speichern-Button wirft einen Fehler, siehe roter Kasten.",
+        "The save button throws an error, see the red box.",
       );
       await page.click('[data-testid="bugreport-send"]');
 

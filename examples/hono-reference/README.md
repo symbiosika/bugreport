@@ -1,23 +1,23 @@
-# Hono-Referenzbeispiel
+# Hono reference example
 
-Vollständige, lauffähige Beispiel-Implementierung aller drei Host-Interfaces —
-als Kopiervorlage gedacht, wird nicht als Paket veröffentlicht.
+Complete, runnable implementation of all three host interfaces — intended as
+a copy template, never published as a package.
 
-| Adapter | Datei | Implementierung |
+| Adapter | File | Implementation |
 |---|---|---|
-| `StorageAdapter` | [`src/adapters/fs-storage.ts`](src/adapters/fs-storage.ts) | Dateisystem (`data/`) — in Produktion: S3/GCS/DB |
-| `LlmAdapter` | [`src/adapters/ai-sdk-llm.ts`](src/adapters/ai-sdk-llm.ts) | **Vercel AI SDK**: `generateObject` gegen ein OpenRouter-Vision-Modell (Analyse) + Mistral Voxtral (Transkription) |
-| `BugReportAction` | [`src/adapters/zip-action.ts`](src/adapters/zip-action.ts) | Packt Report (JSON + Markdown) und alle Assets als ZIP auf die lokale Platte (`bugreports/`) |
+| `StorageAdapter` | [`src/adapters/fs-storage.ts`](src/adapters/fs-storage.ts) | Filesystem (`data/`) — swap for S3/GCS/DB in production |
+| `LlmAdapter` | [`src/adapters/ai-sdk-llm.ts`](src/adapters/ai-sdk-llm.ts) | **Vercel AI SDK**: `generateObject` against an OpenRouter vision model (analysis) + Mistral Voxtral (transcription) |
+| `BugReportAction` | [`src/adapters/zip-action.ts`](src/adapters/zip-action.ts) | Bundles the report (JSON + Markdown) and all assets into a ZIP on the local disk (`bugreports/`) |
 
-Der LLM-Adapter ist bewusst **nicht** Teil der Bibliothek: Anbieter, Modell,
-Prompt und Deployment sind Backend-Entscheidungen der Host-App. Er nutzt die
-optionale Prompt-Vorlage `buildAnalysisPrompt` aus
+The LLM adapter is deliberately **not** part of the library: provider, model,
+prompt and deployment are backend decisions of the host app. It uses the
+optional `buildAnalysisPrompt` template exported by
 `@symbiosika/bugreport-server`.
 
-## Starten
+## Running it
 
 ```bash
-# im Repo-Root:
+# from the repo root:
 bun install && bun run build
 
 cd examples/hono-reference
@@ -25,27 +25,30 @@ OPENROUTER_API_KEY=… MISTRAL_API_KEY=… bun run dev
 # → http://localhost:3000
 ```
 
-Die Demo-Seite enthält absichtliche Fehler (JS-Exception, kaputter Request)
-und ein per `redact.selectors` geschwärztes Element. Ablauf: Floating-Button →
-Einwilligung → Tab freigeben → Fehler vorführen und dabei sprechen →
-„Übermitteln". Das fertige Ergebnis liegt danach als ZIP in `./bugreports/`.
+The demo page contains intentional bugs (a JS exception, a failing request)
+and an element blacked out via `redact.selectors`. Flow: floating button →
+consent → share this tab → demonstrate the bug while talking → "Submit". The
+finished result lands as a ZIP in `./bugreports/`.
 
-### Umgebungsvariablen
+Without API keys everything still works — reports are then created with
+`analysisStatus: 'skipped'`.
 
-| Variable | Wirkung |
+### Environment variables
+
+| Variable | Effect |
 |---|---|
-| `OPENROUTER_API_KEY` / `MISTRAL_API_KEY` | Aktivieren den LLM-Adapter; ohne sie: `analysisStatus 'skipped'` |
-| `OPENROUTER_MODEL` | Analyse-Modell (Default `google/gemini-2.5-flash`) |
+| `OPENROUTER_API_KEY` / `MISTRAL_API_KEY` | Enable the LLM adapter; without them: `analysisStatus 'skipped'` |
+| `OPENROUTER_MODEL` | Analysis model (default `google/gemini-2.5-flash`) |
 | `PORT` | Default `3000` |
-| `BUGREPORT_DATA_DIR` / `BUGREPORT_ZIP_DIR` | Ablageorte überschreiben |
-| `BUGREPORT_CURL_FETCH=1` | fetch-über-curl-Shim für Sandboxes mit TLS-Intercepting-Proxy (siehe `src/lib/curl-fetch.ts`) |
+| `BUGREPORT_DATA_DIR` / `BUGREPORT_ZIP_DIR` | Override storage locations |
+| `BUGREPORT_CURL_FETCH=1` | fetch-via-curl shim for sandboxes with a TLS-intercepting proxy (see `src/lib/curl-fetch.ts`) |
 
 ## Tests
 
 ```bash
-# Integrationstest gegen die echten Provider-APIs:
+# integration test against the real provider APIs:
 bun test test/integration.test.ts
 
-# Browser-E2E (Chromium + Fake-Media-Devices, klickt das echte Overlay durch):
+# browser e2e (Chromium + fake media devices, drives the real overlay):
 bun test test/e2e.browser.test.ts
 ```

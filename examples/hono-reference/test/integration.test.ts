@@ -47,7 +47,7 @@ describe.if(hasKeys)("hono example against real LLM APIs", () => {
         body: JSON.stringify({
           app: { id: "demo-app", version: "1.0.0", environment: "test" },
           reporter: { id: "u1", name: "Test User" },
-          locale: "de",
+          locale: "en",
         }),
       });
       expect(sessionRes.status).toBe(201);
@@ -96,7 +96,7 @@ describe.if(hasKeys)("hono example against real LLM APIs", () => {
             route: "/orders/42",
             viewport: { width: 1440, height: 900, dpr: 2 },
             userAgent: "Mozilla/5.0 (Test)",
-            locale: "de-DE",
+            locale: "en-US",
             timezone: "Europe/Berlin",
             consoleEntries: [
               {
@@ -125,7 +125,7 @@ describe.if(hasKeys)("hono example against real LLM APIs", () => {
             custom: { tenant: "demo" },
           },
           userComment:
-            "Beim Klick auf Speichern in der Bestellmaske stürzt die Seite ab, es erscheint ein roter Fehlerbalken.",
+            "Clicking Save in the order form crashes the page, a red error banner appears.",
           consent: {
             acceptedAt: new Date().toISOString(),
             version: "1.0",

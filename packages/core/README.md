@@ -1,11 +1,13 @@
 # @symbiosika/bugreport-core
 
-Typen, Valibot-Schemas und API-Contract für das Bug-Reporting-Modul — die
-einzige gemeinsame Abhängigkeit von `@symbiosika/bugreport-client` und
-`@symbiosika/bugreport-server`. Ändert sich der normierte Datensatz
-(`BugReport`), brechen beide Seiten zur Compile-Zeit gleichzeitig.
+Shared types, valibot schemas and the API contract for the bug reporting
+module — the single shared dependency of `@symbiosika/bugreport-client` and
+`@symbiosika/bugreport-server`. If the normalized `BugReport` record changes,
+both sides break at compile time simultaneously.
 
-Einzige Runtime-Dependency: `valibot` (tree-shakeable).
+Only runtime dependency: `valibot` (tree-shakeable).
 
-Siehe das [Monorepo-README](https://github.com/symbiosika/bugreport) für die
-Gesamtübersicht.
+See the [monorepo README](https://github.com/symbiosika/bugreport) for the
+full picture and the
+[integration guide](https://github.com/symbiosika/bugreport/blob/main/docs/INTEGRATION.md)
+for the data model.

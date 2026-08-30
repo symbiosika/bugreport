@@ -15,9 +15,9 @@ export interface CaptureCallbacks {
   showOverlay: () => void;
 }
 
-function nextFrame(): Promise<void> {
-  return new Promise((r) => requestAnimationFrame(() => r()));
-}
+type VideoWithFrameCallback = HTMLVideoElement & {
+  requestVideoFrameCallback?: (cb: () => void) => number;
+};
 
 /**
  * Screen + microphone capture. The screen stream is opened but by default
@@ -153,11 +153,12 @@ export class CaptureSession {
         }
       }
 
-      // With tab sharing the overlay would record itself: hide it, wait two
-      // animation frames so the compositor catches up, grab, show again.
+      // With tab sharing the overlay would record itself: hide it, then wait
+      // until the capture stream has actually delivered NEW frames — the
+      // stream runs at ~10 fps, so waiting for repaints of the page is not
+      // enough; the <video> could still hold a frame showing the bar.
       this.callbacks.hideOverlay();
-      await nextFrame();
-      await nextFrame();
+      await this.waitForFreshVideoFrames();
 
       const vw = this.video.videoWidth;
       const vh = this.video.videoHeight;
@@ -184,6 +185,27 @@ export class CaptureSession {
       for (const m of masks) m.remove();
       this.grabbing = false;
     }
+  }
+
+  /** Resolves once the screen stream has produced two new frames (so a
+   * just-hidden overlay is really gone from the compositor output). Falls
+   * back to a fixed delay where requestVideoFrameCallback is missing. */
+  private waitForFreshVideoFrames(): Promise<void> {
+    return new Promise((resolve) => {
+      const video = this.video as VideoWithFrameCallback | null;
+      if (video?.requestVideoFrameCallback) {
+        let remaining = 2;
+        const tick = () => {
+          if (--remaining <= 0) resolve();
+          else video.requestVideoFrameCallback!(tick);
+        };
+        video.requestVideoFrameCallback(tick);
+        // Safety net: a paused/occluded stream may stop delivering frames.
+        setTimeout(resolve, 500);
+      } else {
+        setTimeout(resolve, 250);
+      }
+    });
   }
 
   pause() {

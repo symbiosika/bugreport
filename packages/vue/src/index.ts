@@ -64,7 +64,7 @@ export const BugReportButton = defineComponent({
       type: Object as PropType<BugReportClientConfig>,
       required: true,
     },
-    label: { type: String, default: "Fehler melden" },
+    label: { type: String, default: "Report a bug" },
   },
   setup(props, { slots }) {
     const { isSupported, state, start } = useBugReport(props.config);

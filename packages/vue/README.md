@@ -1,6 +1,6 @@
 # @symbiosika/bugreport-vue
 
-Dünner Vue-3-Wrapper über `@symbiosika/bugreport-client`.
+Thin Vue 3 wrapper around `@symbiosika/bugreport-client`.
 
 ```vue
 <script setup>
@@ -9,15 +9,16 @@ const config = { endpoint: '/api/bugreport', app: { id: 'my-app' } }
 </script>
 
 <template>
-  <!-- rendert nichts, wenn die Plattform nicht unterstützt wird -->
+  <!-- renders nothing when the platform is not supported -->
   <BugReportButton :config="config" />
 </template>
 ```
 
-Oder als Composable:
+Or as a composable:
 
 ```ts
 const { start, isSupported, state } = useBugReport(config)
 ```
 
-Siehe das [Monorepo-README](https://github.com/symbiosika/bugreport).
+See the [monorepo README](https://github.com/symbiosika/bugreport) and the
+[integration guide](https://github.com/symbiosika/bugreport/blob/main/docs/INTEGRATION.md).
