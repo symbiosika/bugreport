@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build packages
+        run: bun run build
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Unit tests
+        run: bun test packages
+
+      # Runs against the real provider APIs — only when secrets are available
+      # (skipped automatically on forks).
+      - name: Integration tests (real LLM APIs)
+        if: ${{ secrets.OPENROUTER_API_KEY != '' && secrets.MISTRAL_API_KEY != '' }}
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+        run: bun test examples/hono-reference/test/integration.test.ts
+
+  publish-dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - name: Pack all publishable packages
+        run: |
+          for pkg in core client vue server; do
+            (cd packages/$pkg && bun pm pack --quiet)
+          done
+          ls -la packages/*/*.tgz

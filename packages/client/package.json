@@ -1,0 +1,30 @@
+{
+  "name": "@symbiosika/bugreport-client",
+  "version": "0.1.0",
+  "description": "Browser SDK (vanilla TS) for @symbiosika/bugreport: overlay UI, screen/audio capture, context collection, upload",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": "./dist/bugreport-client.browser.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "rm -rf dist && bun build src/index.ts --outdir dist --format esm --target browser --external @symbiosika/bugreport-core && bun build src/index.ts --outfile dist/bugreport-client.browser.js --format esm --target browser --minify && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "prepack": "bun run build"
+  },
+  "dependencies": {
+    "@symbiosika/bugreport-core": "workspace:*"
+  }
+}

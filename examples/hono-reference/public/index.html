@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bugreport Demo-App</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; color: #1f2937; }
+    h1 { font-size: 22px; }
+    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px; margin: 14px 0; }
+    button { border: 0; border-radius: 8px; padding: 9px 14px; margin-right: 8px; cursor: pointer; background: #e5e7eb; font-size: 14px; }
+    button.primary { background: #2563eb; color: #fff; }
+    .secret { background: #fef3c7; padding: 6px 10px; border-radius: 6px; display: inline-block; }
+    #log { font-family: ui-monospace, monospace; font-size: 12px; color: #6b7280; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Demo-App mit eingebautem Bug-Reporting</h1>
+  <p>
+    Diese Mini-App enthält absichtliche Fehler. Unten rechts sitzt der
+    Floating-Button von <code>@symbiosika/bugreport-client</code>:
+    klicken → zustimmen → Tab freigeben → Fehler vorführen und dabei sprechen →
+    „Übermitteln“. Das Ergebnis landet als ZIP in
+    <code>examples/hono-reference/bugreports/</code>.
+  </p>
+
+  <div class="card">
+    <h3>Absichtliche Fehler</h3>
+    <button id="btn-crash">JS-Fehler werfen</button>
+    <button id="btn-fetch">Kaputten Request auslösen</button>
+    <button id="btn-warn">console.warn erzeugen</button>
+  </div>
+
+  <div class="card">
+    <h3>Redaction-Demo</h3>
+    <p>Dieses Element wird in Screenshots geschwärzt:</p>
+    <span class="secret" data-private>Geheime Patientendaten: Max Mustermann</span>
+  </div>
+
+  <div class="card">
+    <h3>Status</h3>
+    <div id="log">bereit …</div>
+  </div>
+
+  <script type="module">
+    import { initBugReport } from '/bugreport-client.js';
+
+    const log = (msg) => {
+      document.getElementById('log').textContent += '\n' + msg;
+    };
+
+    const bugReport = initBugReport({
+      endpoint: '/api/bugreport',
+      app: { id: 'demo-app', version: '1.0.0', environment: 'dev' },
+      reporter: () => ({ id: 'u1', name: 'Demo User', email: 'demo@example.com' }),
+      capture: { frameIntervalMs: 3000, microphone: true },
+      redact: { selectors: ['[data-private]'], urlParams: ['token'] },
+      context: () => ({ demoState: 'clicked around', tenant: 'demo' }),
+      locale: 'de',
+      requireTabCapture: true,
+      floatingButton: true,
+      onSubmitted: ({ reportId }) => log(`✅ Meldung ${reportId} übermittelt — ZIP wird erstellt`),
+      onError: (err) => log(`⚠️ ${err.message}`),
+    });
+
+    window.__bugReport = bugReport; // for e2e tests
+    log(bugReport.isSupported
+      ? 'Bug-Reporting verfügbar (Floating-Button unten rechts)'
+      : `Bug-Reporting nicht verfügbar: ${bugReport.unsupportedReason}`);
+    bugReport.onStateChange((s) => log(`state: ${s}`));
+
+    document.getElementById('btn-crash').addEventListener('click', () => {
+      throw new Error('Demo: Nicht abgefangener Fehler beim Speichern');
+    });
+    document.getElementById('btn-fetch').addEventListener('click', () => {
+      fetch('/api/flaky?token=super-secret').catch(() => {});
+    });
+    document.getElementById('btn-warn').addEventListener('click', () => {
+      console.warn('Demo: Formular-Validierung übersprungen');
+    });
+  </script>
+</body>
+</html>

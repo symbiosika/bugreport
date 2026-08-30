@@ -1,0 +1,36 @@
+{
+  "name": "@symbiosika/bugreport-vue",
+  "version": "0.1.0",
+  "description": "Thin Vue 3 wrapper for @symbiosika/bugreport-client: <BugReportButton /> and useBugReport()",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "rm -rf dist && bun build src/index.ts --outdir dist --format esm --target browser --external vue --external @symbiosika/bugreport-client --external @symbiosika/bugreport-core && tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "prepack": "bun run build"
+  },
+  "dependencies": {
+    "@symbiosika/bugreport-client": "workspace:*",
+    "@symbiosika/bugreport-core": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "vue": "^3.5.0"
+  }
+}
