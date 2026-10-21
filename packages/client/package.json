@@ -3,6 +3,25 @@
   "version": "0.1.0",
   "description": "Browser SDK (vanilla TS) for @symbiosika/bugreport: overlay UI, screen/audio capture, context collection, upload",
   "license": "MIT",
+  "author": "Symbiosika GmbH (https://www.symbiosika.de)",
+  "homepage": "https://github.com/symbiosika/bugreport/tree/main/packages/client#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/symbiosika/bugreport.git",
+    "directory": "packages/client"
+  },
+  "bugs": {
+    "url": "https://github.com/symbiosika/bugreport/issues"
+  },
+  "keywords": [
+    "bug-report",
+    "bugreport",
+    "screen-recording",
+    "voice-note",
+    "feedback",
+    "browser",
+    "sdk"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -26,5 +45,8 @@
   },
   "dependencies": {
     "@symbiosika/bugreport-core": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

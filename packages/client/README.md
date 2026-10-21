@@ -30,3 +30,7 @@ platforms `isSupported` reports `false` — don't render the button there.
 
 Full option reference:
 [integration guide](https://github.com/symbiosika/bugreport/blob/main/docs/INTEGRATION.md).
+
+## License
+
+MIT © Symbiosika GmbH

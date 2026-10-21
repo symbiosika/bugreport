@@ -35,3 +35,7 @@ Vercel AI SDK, ZIP action) lives in the
 [monorepo under `examples/hono-reference`](https://github.com/symbiosika/bugreport);
 all options are documented in the
 [integration guide](https://github.com/symbiosika/bugreport/blob/main/docs/INTEGRATION.md).
+
+## License
+
+MIT © Symbiosika GmbH

@@ -3,6 +3,25 @@
   "version": "0.1.0",
   "description": "Web-standard request handler, processing pipeline and host interfaces for @symbiosika/bugreport",
   "license": "MIT",
+  "author": "Symbiosika GmbH (https://www.symbiosika.de)",
+  "homepage": "https://github.com/symbiosika/bugreport/tree/main/packages/server#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/symbiosika/bugreport.git",
+    "directory": "packages/server"
+  },
+  "bugs": {
+    "url": "https://github.com/symbiosika/bugreport/issues"
+  },
+  "keywords": [
+    "bug-report",
+    "bugreport",
+    "llm",
+    "ai",
+    "hono",
+    "bun",
+    "web-standard"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -26,5 +45,8 @@
   "dependencies": {
     "@symbiosika/bugreport-core": "workspace:*",
     "valibot": "^1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
