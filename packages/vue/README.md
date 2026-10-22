@@ -22,3 +22,7 @@ const { start, isSupported, state } = useBugReport(config)
 
 See the [monorepo README](https://github.com/symbiosika/bugreport) and the
 [integration guide](https://github.com/symbiosika/bugreport/blob/main/docs/INTEGRATION.md).
+
+## License
+
+MIT © Symbiosika GmbH

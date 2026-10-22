@@ -11,3 +11,7 @@ See the [monorepo README](https://github.com/symbiosika/bugreport) for the
 full picture and the
 [integration guide](https://github.com/symbiosika/bugreport/blob/main/docs/INTEGRATION.md)
 for the data model.
+
+## License
+
+MIT © Symbiosika GmbH

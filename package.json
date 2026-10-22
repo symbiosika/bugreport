@@ -1,6 +1,11 @@
 {
   "name": "bugreport-monorepo",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/symbiosika/bugreport.git"
+  },
   "workspaces": [
     "packages/*",
     "examples/*"

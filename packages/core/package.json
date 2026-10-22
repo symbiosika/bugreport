@@ -3,6 +3,23 @@
   "version": "0.1.0",
   "description": "Shared types, valibot schemas and API contract for @symbiosika/bugreport",
   "license": "MIT",
+  "author": "Symbiosika GmbH (https://www.symbiosika.de)",
+  "homepage": "https://github.com/symbiosika/bugreport/tree/main/packages/core#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/symbiosika/bugreport.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/symbiosika/bugreport/issues"
+  },
+  "keywords": [
+    "bug-report",
+    "bugreport",
+    "schemas",
+    "valibot",
+    "typescript"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -25,5 +42,8 @@
   },
   "dependencies": {
     "valibot": "^1.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

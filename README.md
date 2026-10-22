@@ -1,10 +1,30 @@
-# @symbiosika/bugreport
+# bugreport
+
+[![CI](https://github.com/symbiosika/bugreport/actions/workflows/ci.yml/badge.svg)](https://github.com/symbiosika/bugreport/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@symbiosika/bugreport-client?label=%40symbiosika%2Fbugreport-client)](https://www.npmjs.com/package/@symbiosika/bugreport-client)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 In-app bug reporting for TypeScript apps: your users **show and tell** what
 went wrong instead of typing it. The client records screen stills and a voice
 note, collects technical context (console errors, failed requests,
 breadcrumbs), and your backend turns it into a normalized, optionally
 LLM-analyzed `BugReport` that you store and route wherever you want.
+
+### Why bugreport
+
+- **Show, don't type** — users click a button, talk through the problem and
+  point at it on screen. No forms, no "what browser are you using?".
+- **Developer-ready reports** — an optional LLM step turns transcript, frames
+  and context into title, summary, steps to reproduce, expected vs. actual
+  behaviour and a severity suggestion.
+- **Bring your own everything** — storage, LLM provider and ticket system are
+  small adapters you own. Self-hosted model? Jira, GitHub, Gitea, n8n? Fine.
+- **Privacy by design** — explicit consent, tab-only capture, CSS-selector
+  redaction, URL-parameter scrubbing, no telemetry, no data leaves your
+  backend unless you send it.
+- **Runs everywhere** — framework-agnostic browser SDK (plus a Vue wrapper)
+  and a web-standard `Request → Response` handler for Bun, Node, Deno, Hono
+  or Cloudflare Workers.
 
 **You bring three adapters** (storage, LLM, target system) — the packages
 bring everything else: overlay UI, capture, upload protocol, validation, and
@@ -103,7 +123,7 @@ import { initBugReport } from '@symbiosika/bugreport-client'
 
 const bugReport = initBugReport({
   endpoint: '/api/bugreport',
-  app: { id: 'operations-app', version: __APP_VERSION__, environment: 'prod' },
+  app: { id: 'my-app', version: __APP_VERSION__, environment: 'prod' },
 
   getAuthHeaders: async () => ({ Authorization: `Bearer ${await getToken()}` }),
   reporter: () => ({ id: user.id, name: user.name, email: user.email }),
@@ -114,7 +134,7 @@ const bugReport = initBugReport({
   },
 
   context: () => ({ route: router.currentRoute.value.fullPath }),
-  locale: 'de',                                              // 'de' | 'en'
+  locale: 'en',                                              // 'en' | 'de'
   onSubmitted: ({ reportId }) => toast(`Report ${reportId} submitted`),
 })
 
@@ -219,6 +239,13 @@ CI (`.github/workflows/ci.yml`) builds, typechecks, tests and does a pack
 dry-run. Each package under `packages/*` has a `prepack` build — publish with
 `cd packages/<name> && npm publish --access public`.
 
+## Contributing
+
+Issues and pull requests are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md)
+for setup and checks, and [SECURITY.md](SECURITY.md) for reporting
+vulnerabilities privately. Please follow our
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
 ## License
 
-MIT
+[MIT](LICENSE) © [Symbiosika GmbH](https://www.symbiosika.de)

@@ -3,6 +3,23 @@
   "version": "0.1.0",
   "description": "Thin Vue 3 wrapper for @symbiosika/bugreport-client: <BugReportButton /> and useBugReport()",
   "license": "MIT",
+  "author": "Symbiosika GmbH (https://www.symbiosika.de)",
+  "homepage": "https://github.com/symbiosika/bugreport/tree/main/packages/vue#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/symbiosika/bugreport.git",
+    "directory": "packages/vue"
+  },
+  "bugs": {
+    "url": "https://github.com/symbiosika/bugreport/issues"
+  },
+  "keywords": [
+    "bug-report",
+    "bugreport",
+    "vue",
+    "vue3",
+    "feedback"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -32,5 +49,8 @@
   },
   "devDependencies": {
     "vue": "^3.5.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
